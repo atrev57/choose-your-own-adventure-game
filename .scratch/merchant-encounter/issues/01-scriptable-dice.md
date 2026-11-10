@@ -8,9 +8,9 @@
 
 Spec: `../spec.md`
 
-- [ ] The Die's roll can be overridden in tests; production rolls are unchanged.
-- [ ] A scripted-die test helper returns a queued sequence of rolls (and fails clearly if it runs out).
-- [ ] The dragon's attack, driven by a scripted die, is tested for: a miss; a hit that the player Full Blocks (Defense Roll = Agility) with no damage; a hit with Defense Roll = Agility + 1 that does full damage.
-- [ ] All existing tests still pass.
+- [x] The Die's roll can be overridden in tests; production rolls are unchanged.
+- [x] A scripted-die test helper returns a queued sequence of rolls (and fails clearly if it runs out).
+- [x] The dragon's attack, driven by a scripted die, is tested for: a miss; a hit that the player Full Blocks (Defense Roll = Agility) with no damage; a hit with Defense Roll = Agility + 1 that does full damage.
+- [x] All existing tests still pass.
 
 ## Comments

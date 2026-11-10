@@ -126,6 +126,67 @@ public class DragonTests
 
         Assert.IsTrue(player.HealthPoints >= 0);
     }
+
+    // Dragon construction consumes three rolls: Strength, Agility, HealthPoints.
+    // Attack then rolls: attack (d20), Defense Roll (d20), damage (d12).
+    private const int DragonStrength = 10;
+    private const int DragonAgility = 5;
+    private const int DragonHealth = 15;
+    private const int HeroAgility = 10;
+    private const int StartingHealth = 30;
+    private const int DamageRoll = 7;
+
+    private static Dragon ScriptedDragon(params int[] attackRolls)
+    {
+        int[] constructionRolls = { DragonStrength, DragonAgility, DragonHealth };
+        return new Dragon(new ScriptedDie([.. constructionRolls, .. attackRolls]));
+    }
+
+    private static Player Hero() => new Player
+    {
+        Name = "TestHero",
+        Agility = HeroAgility,
+        HealthPoints = StartingHealth
+    };
+
+    [TestMethod]
+    public void Attack_Miss_DoesNoDamage()
+    {
+        Dragon dragon = ScriptedDragon(DragonStrength + 1);
+        Player player = Hero();
+        Messages messages = GetMessages();
+
+        string result = dragon.Attack(player, messages);
+
+        Assert.AreEqual(StartingHealth, player.HealthPoints);
+        StringAssert.Contains(result, string.Format(messages.GetMessage("dragon_missed_player"), dragon.Name, player.Name));
+    }
+
+    [TestMethod]
+    public void Attack_DefenseRollEqualToAgility_IsFullBlock()
+    {
+        Dragon dragon = ScriptedDragon(DragonStrength, HeroAgility);
+        Player player = Hero();
+        Messages messages = GetMessages();
+
+        string result = dragon.Attack(player, messages);
+
+        Assert.AreEqual(StartingHealth, player.HealthPoints);
+        StringAssert.Contains(result, string.Format(messages.GetMessage("player_defended_dragon_attack"), player.Name));
+    }
+
+    [TestMethod]
+    public void Attack_DefenseRollOneAboveAgility_DoesFullDamage()
+    {
+        Dragon dragon = ScriptedDragon(DragonStrength, HeroAgility + 1, DamageRoll);
+        Player player = Hero();
+        Messages messages = GetMessages();
+
+        string result = dragon.Attack(player, messages);
+
+        Assert.AreEqual(StartingHealth - DamageRoll, player.HealthPoints);
+        StringAssert.Contains(result, string.Format(messages.GetMessage("dragon_damage_dealt"), dragon.Name, DamageRoll));
+    }
 }
 
 [TestClass]
