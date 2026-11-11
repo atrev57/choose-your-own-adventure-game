@@ -8,12 +8,12 @@
 
 Spec: `../spec.md`. Pricing: ADR 0002.
 
-- [ ] The Merchant menu offers Magical Armor, Magical Weapon and Leave in that order (all 4 languages); ticket 02's tests are updated for the new numbering.
-- [ ] Buying Magical Armor sets the player's Armor (Armor Bonus 5), deducts 10 Gold, and prints what was bought, the Armor Bonus and the remaining Gold.
-- [ ] Armor's translated name and bonus appear in the player stats and on the combat stats screen.
-- [ ] Defense Roll with a scripted die: roll = Agility → no damage; Agility + 1 and Agility + 5 with armor → half damage, rounded down, with a Partial Block message; Agility + 6 → full damage; odd damage rounds down; damage 1 on a Partial Block → 0.
-- [ ] An unarmored player at Agility + 1 still takes full damage (ticket 01's tests still pass).
-- [ ] A full Italian playthrough through the game's start method: South → buy armor → back at the fork → exit.
-- [ ] Key-parity test passes.
+- [x] The Merchant menu offers Magical Armor, Magical Weapon and Leave in that order (all 4 languages); ticket 02's tests are updated for the new numbering.
+- [x] Buying Magical Armor sets the player's Armor (Armor Bonus 5), deducts 10 Gold, and prints what was bought, the Armor Bonus and the remaining Gold.
+- [x] Armor's translated name and bonus appear in the player stats and on the combat stats screen.
+- [x] Defense Roll with a scripted die: roll = Agility → no damage; Agility + 1 and Agility + 5 with armor → half damage, rounded down, with a Partial Block message; Agility + 6 → full damage; odd damage rounds down; damage 1 on a Partial Block → 0.
+- [x] An unarmored player at Agility + 1 still takes full damage (ticket 01's tests still pass).
+- [x] A full Italian playthrough through the game's start method: South → buy armor → back at the fork → exit.
+- [x] Key-parity test passes.
 
 ## Comments

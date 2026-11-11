@@ -377,7 +377,7 @@ public class MessagesTests
         var root = doc.RootElement;
 
         string[] sections = { "dictionary", "raceMap", "occupationMap",
-                              "displayRaceMap", "displayOccupationMap", "displayWeaponMap" };
+                              "displayRaceMap", "displayOccupationMap", "displayWeaponMap", "displayArmorMap" };
 
         foreach (string section in sections)
         {

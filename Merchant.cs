@@ -16,23 +16,38 @@ public class Merchant
             Console.Write(messages.GetMessage("enter_choice"));
             string? input = Console.ReadLine()?.Trim();
 
-            if (input == "1")
-            {
-                if (player.Gold < ItemPrice)
-                    Console.WriteLine(messages.GetMessage("merchant_cannot_afford"));
-                else
-                    BuyMagicalWeapon(player, messages);
-            }
-            else if (input == "2")
+            if (input == "3")
             {
                 Console.WriteLine(string.Format(messages.GetMessage("merchant_leave"), player.Gold));
                 return;
             }
-            else
+
+            if (input != "1" && input != "2")
             {
                 Console.WriteLine(messages.GetMessage("invalid"));
+                continue;
             }
+
+            if (player.Gold < ItemPrice)
+            {
+                Console.WriteLine(messages.GetMessage("merchant_cannot_afford"));
+                continue;
+            }
+
+            if (input == "1")
+                BuyMagicalArmor(player, messages);
+            else
+                BuyMagicalWeapon(player, messages);
         }
+    }
+
+    private void BuyMagicalArmor(Player player, Messages messages)
+    {
+        player.Gold -= ItemPrice;
+        player.Armor = Armor.Magical();
+
+        Console.WriteLine(string.Format(messages.GetMessage("merchant_bought_armor"),
+            messages.TranslateArmorForDisplay(player.Armor.Type), player.Armor.ArmorBonus, player.Gold));
     }
 
     private void BuyMagicalWeapon(Player player, Messages messages)

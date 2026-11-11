@@ -84,7 +84,10 @@ public class Dragon
 
         output.Add(string.Format(messages.GetMessage("dragon_hit_player"), Name, player.Name));
 
+        // Defense Roll: Full Block at or below Agility; Partial Block (half damage,
+        // rounded down) up to Agility + Armor Bonus; full damage above that.
         int defenseRoll = _die.Roll(20);
+        int armorBonus = player.Armor?.ArmorBonus ?? 0;
 
         if (defenseRoll <= player.Agility)
         {
@@ -93,6 +96,13 @@ public class Dragon
         }
 
         int damage = RollDamage();
+
+        if (defenseRoll <= player.Agility + armorBonus)
+        {
+            damage /= 2;
+            output.Add(string.Format(messages.GetMessage("player_partial_block"), player.Name));
+        }
+
         player.HealthPoints -= damage;
 
         if (player.HealthPoints < 0)

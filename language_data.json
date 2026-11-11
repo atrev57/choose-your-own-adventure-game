@@ -36,15 +36,18 @@
       "stats_weapon": "Weapon: ",
       "stats_damage": "Weapon's Maximum Damage Points: ",
       "stats_gold": "Gold: ",
+      "stats_armor": "Armor: ",
+      "stats_armor_bonus": "Armor Bonus: ",
       "adventure_ends": "Adventure ends. Bye.",
       "path_prompt_full": "You are walking in the mountains. You see two paths, one leading north and higher into the mountains. The other path leads south and into the woods. Which do you take? Enter 'n' for North. Enter 's' for South. Enter 'e' for exit game.",
       "path_invalid": "Invalid choice. Please enter 'n', 's', or 'e'.",
       "south_path_narrative": "You take the South path. After a long walk through the woods, you come to a small clearing.",
       "merchant_intro": "You meet a Merchant, who smiles and opens a chest of glowing wares. 'Magic for sale, traveler!'",
       "merchant_gold": "You have {0} Gold.",
-      "merchant_menu": "1. Magical Weapon ({0} Gold)\n2. Leave\nType the number of your choice.",
+      "merchant_menu": "1. Magical Armor ({0} Gold)\n2. Magical Weapon ({0} Gold)\n3. Leave\nType the number of your choice.",
       "merchant_leave": "You leave the Merchant with {0} Gold and walk back to the fork in the path.",
       "merchant_bought_weapon": "You bought a {0}! Its maximum damage is now {1}. You have {2} Gold left.",
+      "merchant_bought_armor": "You bought {0}! Its Armor Bonus is {1}. You have {2} Gold left.",
       "merchant_cannot_afford": "You don't have enough Gold for that.",
       "merchant_empty_stall": "You take the South path back to the clearing. The Merchant's stall is empty. You walk back to the fork in the path.",
       "north_path_narrative": "You take the North path. After walking for hours, the air grows colder, and the trees become more sparse. You are confronted with a dragon. The dragon has a hoard of gold behind it.",
@@ -66,6 +69,7 @@
       "dragon_missed_player": "{0} missed {1}.",
       "dragon_hit_player": "{0} hits {1}.",
       "player_defended_dragon_attack": "{0} successfully defends the attack.",
+      "player_partial_block": "{0}'s armor turns the blow: a Partial Block! Only half the damage gets through.",
       "dragon_damage_dealt": "{0} deals {1} damage.",
       "player_health_now": "{0}'s health points are now {1}.",
       "player_defeated_narrative": "{0} has been defeated.",
@@ -113,6 +117,9 @@
       "magical lightning bolt spell": "magical lightning bolt spell",
       "magical dagger": "magical dagger",
       "magical long bow": "magical long bow"
+    },
+    "displayArmorMap": {
+      "magical armor": "Magical Armor"
     }
   },
   "Spanish": {
@@ -152,15 +159,18 @@
       "stats_weapon": "Arma: ",
       "stats_damage": "Puntos Maximos de Dano del Arma: ",
       "stats_gold": "Oro: ",
+      "stats_armor": "Armadura: ",
+      "stats_armor_bonus": "Bonificacion de Armadura: ",
       "adventure_ends": "La aventura termina. Adios.",
       "path_prompt_full": "Estas caminando en las montanas. Ves dos caminos, uno va al norte y mas arriba en las montanas. El otro va al sur y hacia el bosque. Cual tomas? Escribe 'n' para Norte. Escribe 's' para Sur. Escribe 'e' para salir del juego.",
       "path_invalid": "Opcion invalida. Por favor escribe 'n', 's' o 'e'.",
       "south_path_narrative": "Tomas el camino del sur. Despues de una larga caminata por el bosque, llegas a un pequeno claro.",
       "merchant_intro": "Conoces a un Mercader, que sonrie y abre un cofre de objetos brillantes. 'Magia a la venta, viajero!'",
       "merchant_gold": "Tienes {0} de Oro.",
-      "merchant_menu": "1. Arma Magica ({0} de Oro)\n2. Salir\nEscribe el numero de tu opcion.",
+      "merchant_menu": "1. Armadura Magica ({0} de Oro)\n2. Arma Magica ({0} de Oro)\n3. Salir\nEscribe el numero de tu opcion.",
       "merchant_leave": "Dejas al Mercader con {0} de Oro y regresas a la bifurcacion del camino.",
       "merchant_bought_weapon": "Compraste: {0}! Su dano maximo ahora es {1}. Te quedan {2} de Oro.",
+      "merchant_bought_armor": "Compraste: {0}! Su Bonificacion de Armadura es {1}. Te quedan {2} de Oro.",
       "merchant_cannot_afford": "No tienes suficiente Oro para eso.",
       "merchant_empty_stall": "Tomas el camino del sur de vuelta al claro. El puesto del Mercader esta vacio. Regresas a la bifurcacion del camino.",
       "north_path_narrative": "Tomas el camino del norte. Despues de caminar durante horas, el aire se vuelve mas frio y los arboles mas escasos. Te enfrentas a un dragon. El dragon tiene una horda de oro detras de el.",
@@ -182,6 +192,7 @@
       "dragon_missed_player": "{0} fallo contra {1}.",
       "dragon_hit_player": "{0} golpea a {1}.",
       "player_defended_dragon_attack": "{0} defendio exitosamente el ataque.",
+      "player_partial_block": "La armadura de {0} desvia el golpe: un Bloqueo Parcial! Solo pasa la mitad del dano.",
       "dragon_damage_dealt": "{0} hace {1} de dano.",
       "player_health_now": "Los puntos de vida de {0} ahora son {1}.",
       "player_defeated_narrative": "{0} ha sido derrotado.",
@@ -229,6 +240,9 @@
       "magical lightning bolt spell": "hechizo de rayo magico",
       "magical dagger": "daga magica",
       "magical long bow": "arco largo magico"
+    },
+    "displayArmorMap": {
+      "magical armor": "armadura magica"
     }
   },
   "French": {
@@ -268,15 +282,18 @@
       "stats_weapon": "Arme: ",
       "stats_damage": "Points de Dommages Maximum: ",
       "stats_gold": "Or: ",
+      "stats_armor": "Armure: ",
+      "stats_armor_bonus": "Bonus d'Armure: ",
       "adventure_ends": "L'aventure se termine. Au revoir.",
       "path_prompt_full": "Vous marchez dans les montagnes. Vous voyez deux chemins, l'un mene vers le nord et plus haut dans les montagnes. L'autre mene vers le sud et dans les bois. Lequel choisissez-vous ? Tapez 'n' pour Nord. Tapez 's' pour Sud. Tapez 'e' pour quitter le jeu.",
       "path_invalid": "Choix invalide. Veuillez taper 'n', 's' ou 'e'.",
       "south_path_narrative": "Vous prenez le chemin du sud. Apres une longue marche dans les bois, vous arrivez a une petite clairiere.",
       "merchant_intro": "Vous rencontrez un Marchand, qui sourit et ouvre un coffre d'objets scintillants. 'Magie a vendre, voyageur!'",
       "merchant_gold": "Vous avez {0} pieces d'or.",
-      "merchant_menu": "1. Arme Magique ({0} pieces d'or)\n2. Partir\nTapez le numero de votre choix.",
+      "merchant_menu": "1. Armure Magique ({0} pieces d'or)\n2. Arme Magique ({0} pieces d'or)\n3. Partir\nTapez le numero de votre choix.",
       "merchant_leave": "Vous quittez le Marchand avec {0} pieces d'or et retournez a la bifurcation du chemin.",
       "merchant_bought_weapon": "Vous avez achete : {0}! Ses degats maximum sont maintenant de {1}. Il vous reste {2} pieces d'or.",
+      "merchant_bought_armor": "Vous avez achete : {0}! Son Bonus d'Armure est de {1}. Il vous reste {2} pieces d'or.",
       "merchant_cannot_afford": "Vous n'avez pas assez de pieces d'or pour cela.",
       "merchant_empty_stall": "Vous reprenez le chemin du sud jusqu'a la clairiere. L'etal du Marchand est vide. Vous retournez a la bifurcation du chemin.",
       "north_path_narrative": "Vous prenez le chemin du nord. Apres avoir marche pendant des heures, l'air devient plus froid et les arbres plus rares. Vous etes confronte a un dragon. Le dragon a un tresor d'or derriere lui.",
@@ -298,6 +315,7 @@
       "dragon_missed_player": "{0} a manque {1}.",
       "dragon_hit_player": "{0} touche {1}.",
       "player_defended_dragon_attack": "{0} defend avec succes l'attaque.",
+      "player_partial_block": "L'armure de {0} devie le coup : un Blocage Partiel! Seule la moitie des degats passe.",
       "dragon_damage_dealt": "{0} inflige {1} degats.",
       "player_health_now": "Les points de vie de {0} sont maintenant de {1}.",
       "player_defeated_narrative": "{0} a ete vaincu.",
@@ -345,6 +363,9 @@
       "magical lightning bolt spell": "sort d'eclair magique",
       "magical dagger": "dague magique",
       "magical long bow": "arc long magique"
+    },
+    "displayArmorMap": {
+      "magical armor": "armure magique"
     }
   },
   "Italian": {
@@ -384,15 +405,18 @@
       "stats_weapon": "Arma: ",
       "stats_damage": "Danno Massimo dell'Arma: ",
       "stats_gold": "Oro: ",
+      "stats_armor": "Armatura: ",
+      "stats_armor_bonus": "Bonus Armatura: ",
       "adventure_ends": "L'avventura finisce. Ciao.",
       "path_prompt_full": "Stai camminando tra le montagne. Vedi due sentieri: uno va a nord, piu' in alto tra le montagne. L'altro va a sud, nel bosco. Quale prendi? Digita 'n' per Nord. Digita 's' per Sud. Digita 'e' per uscire dal gioco.",
       "path_invalid": "Scelta non valida. Digita 'n', 's' o 'e'.",
       "south_path_narrative": "Prendi il sentiero a sud. Dopo una lunga camminata nel bosco, arrivi in una piccola radura.",
       "merchant_intro": "Incontri un Mercante, che sorride e apre un forziere di oggetti scintillanti. 'Magia in vendita, viaggiatore!'",
       "merchant_gold": "Hai {0} monete d'oro.",
-      "merchant_menu": "1. Arma Magica ({0} monete d'oro)\n2. Esci\nDigita il numero della tua scelta.",
+      "merchant_menu": "1. Armatura Magica ({0} monete d'oro)\n2. Arma Magica ({0} monete d'oro)\n3. Esci\nDigita il numero della tua scelta.",
       "merchant_leave": "Lasci il Mercante con {0} monete d'oro e torni al bivio del sentiero.",
       "merchant_bought_weapon": "Hai comprato: {0}! Il suo danno massimo ora e' {1}. Ti restano {2} monete d'oro.",
+      "merchant_bought_armor": "Hai comprato: {0}! Il suo Bonus Armatura e' {1}. Ti restano {2} monete d'oro.",
       "merchant_cannot_afford": "Non hai abbastanza monete d'oro per questo.",
       "merchant_empty_stall": "Riprendi il sentiero a sud fino alla radura. La bancarella del Mercante e' vuota. Torni al bivio del sentiero.",
       "north_path_narrative": "Prendi il sentiero a nord. Dopo ore di cammino, l'aria si fa piu' fredda e gli alberi diventano piu' radi. Ti trovi di fronte a un drago. Il drago ha un tesoro d'oro alle sue spalle.",
@@ -414,6 +438,7 @@
       "dragon_missed_player": "{0} ha mancato {1}.",
       "dragon_hit_player": "{0} colpisce {1}.",
       "player_defended_dragon_attack": "{0} para con successo l'attacco.",
+      "player_partial_block": "L'armatura di {0} devia il colpo: un Blocco Parziale! Passa solo meta' del danno.",
       "dragon_damage_dealt": "{0} infligge {1} danni.",
       "player_health_now": "I punti vita di {0} ora sono {1}.",
       "player_defeated_narrative": "{0} e' stato sconfitto.",
@@ -461,6 +486,9 @@
       "magical lightning bolt spell": "incantesimo del fulmine magico",
       "magical dagger": "pugnale magico",
       "magical long bow": "arco lungo magico"
+    },
+    "displayArmorMap": {
+      "magical armor": "armatura magica"
     }
   }
 }

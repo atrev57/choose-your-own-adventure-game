@@ -45,11 +45,13 @@ public class MerchantTests
     [Timeout(5000)]
     public void SouthPath_Leave_KeepsGoldAndReturnsToFork()
     {
-        string output = PlayGame(CreateThief + "s\n2\ne\n");
+        string output = PlayGame(CreateThief + "s\n3\ne\n");
 
         StringAssert.Contains(output, "You meet a Merchant");
         StringAssert.Contains(output, "You have 15 Gold.");
-        StringAssert.Contains(output, "1. Magical Weapon (10 Gold)");
+        StringAssert.Contains(output, "1. Magical Armor (10 Gold)");
+        StringAssert.Contains(output, "2. Magical Weapon (10 Gold)");
+        StringAssert.Contains(output, "3. Leave");
         StringAssert.Contains(output, "You leave the Merchant with 15 Gold");
         Assert.IsFalse(output.Contains("return home"), "South path must no longer send the player home.");
         Assert.AreEqual(2, CountOf(output, "You are walking in the mountains."), "Player should be back at the path fork.");
@@ -60,7 +62,7 @@ public class MerchantTests
     public void SouthPath_BuyWeapon_Thief_EnchantsDaggerTo10AndLeaves5Gold()
     {
         // Buy the weapon, then leave (the menu stays open after a purchase; ADR 0002).
-        string output = PlayGame(CreateThief + "s\n1\n2\ne\n");
+        string output = PlayGame(CreateThief + "s\n2\n3\ne\n");
 
         StringAssert.Contains(output, "You bought a magical dagger! Its maximum damage is now 10. You have 5 Gold left.");
         StringAssert.Contains(output, "You leave the Merchant with 5 Gold");
@@ -69,11 +71,24 @@ public class MerchantTests
 
     [TestMethod]
     [Timeout(5000)]
+    public void SouthPath_BuyArmor_SetsArmorBonus5AndLeaves5Gold()
+    {
+        string output = PlayGame(CreateThief + "s\n1\n3\ne\n");
+
+        StringAssert.Contains(output, "You bought Magical Armor! Its Armor Bonus is 5. You have 5 Gold left.");
+        StringAssert.Contains(output, "You leave the Merchant with 5 Gold");
+        Assert.AreEqual(2, CountOf(output, "You are walking in the mountains."), "Player should be back at the path fork.");
+    }
+
+    [TestMethod]
+    [Timeout(5000)]
     public void SouthPath_SecondPurchase_IsUnaffordable()
     {
-        string output = PlayGame(CreateThief + "s\n1\n1\n2\ne\n");
+        // Buy the weapon, try the armor and the weapon again, then leave.
+        string output = PlayGame(CreateThief + "s\n2\n1\n2\n3\ne\n");
 
-        StringAssert.Contains(output, "You don't have enough Gold for that.");
+        Assert.AreEqual(2, CountOf(output, "You don't have enough Gold for that."));
+        Assert.IsFalse(output.Contains("You bought Magical Armor"), "15 Gold must not buy both items (ADR 0002).");
         Assert.IsFalse(output.Contains("maximum damage is now 14"), "The weapon must not be enchanted twice.");
         StringAssert.Contains(output, "You leave the Merchant with 5 Gold");
     }
@@ -82,7 +97,7 @@ public class MerchantTests
     [Timeout(5000)]
     public void SouthPath_InvalidMerchantInput_ShowsErrorAndReprompts()
     {
-        string output = PlayGame(CreateThief + "s\n9\nweapon\n2\ne\n");
+        string output = PlayGame(CreateThief + "s\n9\nweapon\n3\ne\n");
 
         Assert.AreEqual(2, CountOf(output, "Invalid choice. Please try again."));
         Assert.AreEqual(3, CountOf(output, "You have 15 Gold."), "The Merchant menu should be shown again after each invalid choice.");
@@ -93,7 +108,7 @@ public class MerchantTests
     [Timeout(5000)]
     public void SouthPath_SecondTrip_FindsEmptyStallAndReturnsToFork()
     {
-        string output = PlayGame(CreateThief + "s\n2\ns\ne\n");
+        string output = PlayGame(CreateThief + "s\n3\ns\ne\n");
 
         Assert.AreEqual(1, CountOf(output, "You meet a Merchant"), "The Merchant is met only once per character.");
         StringAssert.Contains(output, "The Merchant's stall is empty.");
@@ -105,10 +120,49 @@ public class MerchantTests
     public void SouthPath_AfterMerchant_PlayerCanGoNorth()
     {
         // Buy, leave, go North, then retreat at the encounter prompt (before any combat rolls).
-        string output = PlayGame(CreateThief + "s\n1\n2\nn\nr\n");
+        string output = PlayGame(CreateThief + "s\n2\n3\nn\nr\n");
 
         StringAssert.Contains(output, "You take the North path.");
         StringAssert.Contains(output, "You quickly retreat.");
+    }
+
+    // --- Magical Armor display ---
+
+    [TestMethod]
+    public void CombatStats_ShowArmorNameAndBonus()
+    {
+        Messages messages = new Messages();
+        messages.ReadDictionary();
+        Player player = new Player { Name = "Aria", Armor = Armor.Magical() };
+
+        string stats = new Combat(player, new Dragon(new Die()), messages).GetCombatStatsDisplay();
+
+        StringAssert.Contains(stats, "Armor: Magical Armor");
+        StringAssert.Contains(stats, "Armor Bonus: 5");
+    }
+
+    [TestMethod]
+    public void PlayerStats_ShowTranslatedArmorNameAndBonus()
+    {
+        Messages messages = new Messages();
+        messages.SetCurrentLanguage("Italian");
+        messages.ReadDictionary();
+        Player player = new Player { Name = "Giulia", Armor = Armor.Magical() };
+
+        TextWriter originalOut = Console.Out;
+        using var writer = new StringWriter();
+        try
+        {
+            Console.SetOut(writer);
+            player.DisplayStats(messages);
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
+
+        StringAssert.Contains(writer.ToString(), "Armatura: armatura magica");
+        StringAssert.Contains(writer.ToString(), "Bonus Armatura: 5");
     }
 
     // --- Magical Weapon display ---

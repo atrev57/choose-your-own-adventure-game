@@ -187,6 +187,47 @@ public class DragonTests
         Assert.AreEqual(StartingHealth - DamageRoll, player.HealthPoints);
         StringAssert.Contains(result, string.Format(messages.GetMessage("dragon_damage_dealt"), dragon.Name, DamageRoll));
     }
+
+    // --- Magical Armor: Partial Block band (Armor Bonus 5) ---
+
+    private static Player ArmoredHero()
+    {
+        Player player = Hero();
+        player.Armor = Armor.Magical();
+        return player;
+    }
+
+    [TestMethod]
+    public void Attack_Armored_DefenseRollOneAboveAgility_IsPartialBlockForHalfDamage()
+    {
+        Dragon dragon = ScriptedDragon(DragonStrength, HeroAgility + 1, 7);
+        Player player = ArmoredHero();
+        Messages messages = GetMessages();
+
+        string result = dragon.Attack(player, messages);
+
+        Assert.AreEqual(StartingHealth - 3, player.HealthPoints, "7 damage halved and rounded down is 3.");
+        StringAssert.Contains(result, "TestHero's armor turns the blow: a Partial Block!");
+        StringAssert.Contains(result, string.Format(messages.GetMessage("dragon_damage_dealt"), dragon.Name, 3));
+    }
+
+    [TestMethod]
+    [DataRow(0, 8, 0, false, DisplayName = "Roll = Agility: Full Block, no damage")]
+    [DataRow(5, 8, 4, true, DisplayName = "Roll = Agility + 5: still a Partial Block")]
+    [DataRow(1, 8, 4, true, DisplayName = "Even damage halves exactly")]
+    [DataRow(1, 1, 0, true, DisplayName = "Damage 1 on a Partial Block rounds down to 0")]
+    [DataRow(6, 8, 8, false, DisplayName = "Roll = Agility + 6: full damage")]
+    public void Attack_Armored_DefenseRollBands(int rollAboveAgility, int damageRoll, int expectedDamage, bool expectPartialBlock)
+    {
+        // A Full Block consumes no damage roll; the extra scripted roll is simply unused.
+        Dragon dragon = ScriptedDragon(DragonStrength, HeroAgility + rollAboveAgility, damageRoll);
+        Player player = ArmoredHero();
+
+        string result = dragon.Attack(player, GetMessages());
+
+        Assert.AreEqual(StartingHealth - expectedDamage, player.HealthPoints);
+        Assert.AreEqual(expectPartialBlock, result.Contains("Partial Block"));
+    }
 }
 
 [TestClass]

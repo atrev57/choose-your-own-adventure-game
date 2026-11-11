@@ -24,6 +24,7 @@ public class Messages
     private Dictionary<string, string> _displayRaceMap = new();
     private Dictionary<string, string> _displayOccupationMap = new();
     private Dictionary<string, string> _displayWeaponMap = new();
+    private Dictionary<string, string> _displayArmorMap = new();
 
     /// <param name="jsonPath">
     /// Optional path to the language file. Defaults to language_data.json next to the app.
@@ -85,6 +86,7 @@ public class Messages
             _displayRaceMap = LoadMap(langSection, "displayRaceMap", StringComparer.Ordinal);
             _displayOccupationMap = LoadMap(langSection, "displayOccupationMap", StringComparer.Ordinal);
             _displayWeaponMap = LoadMap(langSection, "displayWeaponMap", StringComparer.Ordinal);
+            _displayArmorMap = LoadMap(langSection, "displayArmorMap", StringComparer.Ordinal);
         }
 
         _isLoaded = true;
@@ -164,5 +166,10 @@ public class Messages
     public string TranslateWeaponForDisplay(string weaponType)
     {
         return _displayWeaponMap.TryGetValue(weaponType, out string? translated) ? translated : weaponType;
+    }
+
+    public string TranslateArmorForDisplay(string armorType)
+    {
+        return _displayArmorMap.TryGetValue(armorType, out string? translated) ? translated : armorType;
     }
 }

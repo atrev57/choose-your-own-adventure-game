@@ -198,4 +198,22 @@ public class ItalianLanguageTests
         Assert.IsFalse(output.Contains("[") && Regex.IsMatch(output, @"\[[a-z_0-9]+\]"),
             "Output contains a missing-key marker like [some_key].");
     }
+
+    [TestMethod]
+    [DoNotParallelize]
+    [Timeout(5000)]  // fail fast if the game gets stuck waiting for input
+    public void StartGame_Italian_SouthBuyArmorThenBackToFork()
+    {
+        // Italian -> Mezzuomo Ladro "Giulia" -> start adventure -> South -> buy armor (1) -> leave (3) -> exit.
+        string output = PlayGame("4\n1\nmezzuomo\nGiulia\nladro\nroll\nroll\nroll\n2\ns\n1\n3\ne\n");
+
+        StringAssert.Contains(output, "Incontri un Mercante");
+        StringAssert.Contains(output, "Hai 15 monete d'oro.");
+        StringAssert.Contains(output, "1. Armatura Magica (10 monete d'oro)");
+        StringAssert.Contains(output, "Hai comprato: armatura magica! Il suo Bonus Armatura e' 5. Ti restano 5 monete d'oro.");
+        StringAssert.Contains(output, "Lasci il Mercante con 5 monete d'oro");
+        Assert.AreEqual(2, Regex.Matches(output, "Stai camminando tra le montagne.").Count, "Player should be back at the path fork.");
+        StringAssert.Contains(output, "L'avventura finisce. Ciao.");
+        Assert.IsFalse(Regex.IsMatch(output, @"\[[a-z_0-9]+\]"), "Output contains a missing-key marker like [some_key].");
+    }
 }
