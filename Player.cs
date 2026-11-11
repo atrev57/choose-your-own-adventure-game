@@ -155,17 +155,30 @@ public class Player
         Console.WriteLine(messages.GetMessage("stats_health") + HealthPoints);
         Console.WriteLine(messages.GetMessage("stats_gold") + Gold);
 
+        foreach (string line in GetEquipmentStatLines(messages))
+            Console.WriteLine(line);
+    }
+
+    /// <summary>
+    /// The weapon and armor lines shared by the character stats and the combat stats screen.
+    /// </summary>
+    public List<string> GetEquipmentStatLines(Messages messages)
+    {
+        var lines = new List<string>();
+
         if (Weapon != null)
         {
-            Console.WriteLine(messages.GetMessage("stats_weapon") + messages.TranslateWeaponForDisplay(Weapon.Type));
-            Console.WriteLine(messages.GetMessage("stats_damage") + Weapon.MaxDamage);
+            lines.Add(messages.GetMessage("stats_weapon") + messages.TranslateWeaponForDisplay(Weapon.Type));
+            lines.Add(messages.GetMessage("stats_damage") + Weapon.MaxDamage);
         }
 
         if (Armor != null)
         {
-            Console.WriteLine(messages.GetMessage("stats_armor") + messages.TranslateArmorForDisplay(Armor.Type));
-            Console.WriteLine(messages.GetMessage("stats_armor_bonus") + Armor.ArmorBonus);
+            lines.Add(messages.GetMessage("stats_armor") + messages.TranslateArmorForDisplay(Armor.Type));
+            lines.Add(messages.GetMessage("stats_armor_bonus") + Armor.ArmorBonus);
         }
+
+        return lines;
     }
 
     public int RollAttack()
