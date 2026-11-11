@@ -10,6 +10,13 @@ public class Player
     public int Agility { get; set; }
     public int HealthPoints { get; set; }
 
+    // Every character starts with the same Gold: enough for exactly one Merchant item (ADR 0002).
+    public const int StartingGold = 15;
+    public int Gold { get; set; } = StartingGold;
+
+    // Lives on the player so every new character meets a fresh Merchant.
+    public bool HasMetMerchant { get; set; }
+
     public Weapon? Weapon { get; set; }
 
     public void CreateCharacter(Messages messages)
@@ -145,6 +152,7 @@ public class Player
         Console.WriteLine(messages.GetMessage("stats_strength") + Strength);
         Console.WriteLine(messages.GetMessage("stats_agility") + Agility);
         Console.WriteLine(messages.GetMessage("stats_health") + HealthPoints);
+        Console.WriteLine(messages.GetMessage("stats_gold") + Gold);
 
         if (Weapon != null)
         {
