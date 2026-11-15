@@ -1,3 +1,8 @@
+public enum HealingPotionDrinkOutcome { Drank, NoHealingPotions, AtMaximumHealthPoints }
+
+/// <summary>The result of trying to drink a Healing Potion, with the Health Points actually restored.</summary>
+public readonly record struct HealingPotionDrink(HealingPotionDrinkOutcome Outcome, int Restored);
+
 public class Player
 {
     private readonly Die _die;
@@ -37,6 +42,27 @@ public class Player
         HealingPotions++;
         Console.WriteLine(string.Format(messages.GetMessage("healing_potion_found"),
             messages.GetMessage("healing_potion_name")));
+    }
+
+    /// <summary>
+    /// Drinks a Healing Potion: restores half of Maximum Health Points, rounded up (at least 1),
+    /// never going above Maximum Health Points. Refused, changing nothing, when the player has no
+    /// Healing Potions or is already at Maximum Health Points.
+    /// </summary>
+    public HealingPotionDrink DrinkHealingPotion()
+    {
+        if (HealingPotions <= 0)
+            return new HealingPotionDrink(HealingPotionDrinkOutcome.NoHealingPotions, 0);
+
+        if (HealthPoints >= MaximumHealthPoints)
+            return new HealingPotionDrink(HealingPotionDrinkOutcome.AtMaximumHealthPoints, 0);
+
+        int healAmount = Math.Max(1, (MaximumHealthPoints + 1) / 2);
+        int restored = Math.Min(healAmount, MaximumHealthPoints - HealthPoints);
+
+        HealingPotions--;
+        HealthPoints += restored;
+        return new HealingPotionDrink(HealingPotionDrinkOutcome.Drank, restored);
     }
 
     public Weapon? Weapon { get; set; }

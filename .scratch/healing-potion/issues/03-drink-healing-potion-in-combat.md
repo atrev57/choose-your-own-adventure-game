@@ -13,14 +13,19 @@
 
 Spec: `../spec.md`. Localization: ADR 0001.
 
-- [ ] Combat (scripted Die + console input): heal amount for Maximum Health Points 17 → 9, 16 → 8, and 1 → 1.
-- [ ] At 15/17, drinking reports 2 restored and health becomes 17.
-- [ ] At full health, `h` is refused, the count is unchanged, and the dragon does not attack.
-- [ ] With no Healing Potions, `h` is refused, and the dragon does not attack.
-- [ ] In a heal round the player does not attack but the dragon does, and the count goes down by one.
-- [ ] The dragon's attack after drinking can still defeat the player.
-- [ ] The combat prompt shows the remaining count.
-- [ ] An attack-only fight produces the same sequence as before; existing combat and game tests still pass.
-- [ ] The drink message, both refusal messages and the updated combat prompt exist in all four languages without accents; key-parity passes.
+- [x] Combat (scripted Die + console input): heal amount for Maximum Health Points 17 → 9, 16 → 8, and 1 → 1.
+- [x] At 15/17, drinking reports 2 restored and health becomes 17.
+- [x] At full health, `h` is refused, the count is unchanged, and the dragon does not attack.
+- [x] With no Healing Potions, `h` is refused, and the dragon does not attack.
+- [x] In a heal round the player does not attack but the dragon does, and the count goes down by one.
+- [x] The dragon's attack after drinking can still defeat the player.
+- [x] The combat prompt shows the remaining count.
+- [x] An attack-only fight produces the same sequence as before; existing combat and game tests still pass.
+- [x] The drink message, both refusal messages and the updated combat prompt exist in all four languages without accents; key-parity passes.
 
 ## Comments
+
+- The 1 -> 1 heal amount is tested on `Player.DrinkHealingPotion()` directly, not through combat: a living player with Maximum Health Points 1 is always at their maximum, so combat refuses the heal.
+- The refusal for a player already at Maximum Health Points uses the key `healing_potion_at_maximum` and avoids the phrase "full health", which GLOSSARY.md lists under Avoid.
+- A player who never went South still sees the heal option in the combat prompt with "(0 left)", and `h` is refused. This follows this ticket's "offers ... h/heal after each exchange". Spec user story 32 ("exactly as before, with no heal available") could be read as hiding the option instead, so it needs a decision.
+- Invalid input at the combat prompt still plays an attack round, as before.
