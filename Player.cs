@@ -1,6 +1,16 @@
 public class Player
 {
-    private readonly Die _die = new Die();
+    private readonly Die _die;
+
+    public Player() : this(new Die())
+    {
+    }
+
+    // Like the dragon, the player can be given a Die so tests can script its rolls.
+    public Player(Die die)
+    {
+        _die = die;
+    }
 
     public string Name { get; set; } = "";
     public string Race { get; set; } = "";

@@ -8,8 +8,8 @@
 
 Spec: `../spec.md`.
 
-- [ ] A player can be created with a supplied Die; a player created without one rolls as before.
-- [ ] A test with a scripted Die drives a player attack through hit, dragon defense and damage, and asserts on the attack output (e.g. a scripted miss prints the miss message; a scripted hit with damage 7 lowers the dragon's Health Points by 7).
-- [ ] All existing tests still pass unchanged.
+- [x] A player can be created with a supplied Die; a player created without one rolls as before.
+- [x] A test with a scripted Die drives a player attack through hit, dragon defense and damage, and asserts on the attack output (e.g. a scripted miss prints the miss message; a scripted hit with damage 7 lowers the dragon's Health Points by 7).
+- [x] All existing tests still pass unchanged.
 
 ## Comments
