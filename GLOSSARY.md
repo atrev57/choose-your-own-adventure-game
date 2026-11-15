@@ -61,3 +61,21 @@ _Avoid_: Shield, protection item
 **Armor Bonus**:
 How far Magical Armor extends the Defense Roll beyond Agility into the Partial Block range.
 _Avoid_: Protection, armor class, defense bonus
+
+### Inventory
+
+**Inventory**:
+Everything the player is Wielding, Wearing and Carrying.
+_Avoid_: Equipment, gear, items, bag
+
+**Wielding**:
+The weapon the player attacks with — including a Magician's lightning bolt spell, and a Magical Weapon once enchanted.
+_Avoid_: Holding, equipped weapon
+
+**Wearing**:
+The Magical Armor the player has on, if any.
+_Avoid_: Equipped armor
+
+**Carrying**:
+The Healing Potions and Gold the player has with them.
+_Avoid_: Backpack, holding

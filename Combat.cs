@@ -106,7 +106,7 @@ public class Combat
         output.Add(string.Format(messages.GetMessage("stats_health_current_maximum"),
             player.HealthPoints, player.MaximumHealthPoints));
 
-        output.AddRange(player.GetEquipmentStatLines(messages));
+        output.AddRange(player.GetInventoryLines(messages));
 
         output.Add("");
         output.Add(messages.GetMessage("combat_dragon_header"));

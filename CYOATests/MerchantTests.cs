@@ -38,7 +38,7 @@ public class MerchantTests
     {
         string output = PlayGame(CreateThief + "e\n");
 
-        StringAssert.Contains(output, "Gold: 15");
+        StringAssert.Contains(output, "Carrying:" + Environment.NewLine + "  Gold: 15");
     }
 
     [TestMethod]
@@ -198,8 +198,8 @@ public class MerchantTests
 
         string stats = new Combat(player, new Dragon(new Die()), messages).GetCombatStatsDisplay();
 
-        StringAssert.Contains(stats, "Armor: Magical Armor");
-        StringAssert.Contains(stats, "Armor Bonus: 5");
+        StringAssert.Contains(stats, "Wearing:" + Environment.NewLine + "  Armor: Magical Armor"
+            + Environment.NewLine + "  Armor Bonus: 5");
     }
 
     [TestMethod]
@@ -222,8 +222,8 @@ public class MerchantTests
             Console.SetOut(originalOut);
         }
 
-        StringAssert.Contains(writer.ToString(), "Armatura: armatura magica");
-        StringAssert.Contains(writer.ToString(), "Bonus Armatura: 5");
+        StringAssert.Contains(writer.ToString(), "Indossa:" + Environment.NewLine + "  Armatura: armatura magica"
+            + Environment.NewLine + "  Bonus Armatura: 5");
     }
 
     // --- Magical Weapon display ---
@@ -237,8 +237,8 @@ public class MerchantTests
 
         string stats = new Combat(player, new Dragon(new Die()), messages).GetCombatStatsDisplay();
 
-        StringAssert.Contains(stats, "Weapon: magical dagger");
-        StringAssert.Contains(stats, "Weapon's Maximum Damage Points: 10");
+        StringAssert.Contains(stats, "Wielding:" + Environment.NewLine + "  Weapon: magical dagger"
+            + Environment.NewLine + "  Weapon's Maximum Damage Points: 10");
     }
 
     [TestMethod]

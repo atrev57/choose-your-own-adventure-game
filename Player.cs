@@ -7,6 +7,9 @@ public class Player
 {
     private readonly Die _die;
 
+    // Lines under an Inventory heading (Wielding, Wearing, Carrying) are indented by this much.
+    private const string InventoryIndent = "  ";
+
     public Player() : this(new Die())
     {
     }
@@ -202,33 +205,46 @@ public class Player
         Console.WriteLine(messages.GetMessage("stats_strength") + Strength);
         Console.WriteLine(messages.GetMessage("stats_agility") + Agility);
         Console.WriteLine(messages.GetMessage("stats_health") + HealthPoints);
-        Console.WriteLine(messages.GetMessage("stats_gold") + Gold);
 
-        foreach (string line in GetEquipmentStatLines(messages))
+        foreach (string line in GetInventoryLines(messages))
             Console.WriteLine(line);
     }
 
     /// <summary>
-    /// The weapon, armor and Healing Potion lines shared by the character stats and the combat stats screen.
+    /// The Inventory shared by the character stats and the combat stats screen: a header, then
+    /// Wielding, Wearing and Carrying, always in that order and always present.
     /// </summary>
-    public List<string> GetEquipmentStatLines(Messages messages)
+    public List<string> GetInventoryLines(Messages messages)
     {
-        var lines = new List<string>();
+        string nothing = InventoryIndent + messages.GetMessage("stats_inventory_nothing");
+        var lines = new List<string> { messages.GetMessage("stats_inventory_header") };
 
+        lines.Add(messages.GetMessage("stats_wielding"));
         if (Weapon != null)
         {
-            lines.Add(messages.GetMessage("stats_weapon") + messages.TranslateWeaponForDisplay(Weapon.Type));
-            lines.Add(messages.GetMessage("stats_damage") + Weapon.MaxDamage);
+            lines.Add(InventoryIndent + messages.GetMessage("stats_weapon") + messages.TranslateWeaponForDisplay(Weapon.Type));
+            lines.Add(InventoryIndent + messages.GetMessage("stats_damage") + Weapon.MaxDamage);
+        }
+        else
+        {
+            lines.Add(nothing);
         }
 
+        lines.Add(messages.GetMessage("stats_wearing"));
         if (Armor != null)
         {
-            lines.Add(messages.GetMessage("stats_armor") + messages.TranslateArmorForDisplay(Armor.Type));
-            lines.Add(messages.GetMessage("stats_armor_bonus") + Armor.ArmorBonus);
+            lines.Add(InventoryIndent + messages.GetMessage("stats_armor") + messages.TranslateArmorForDisplay(Armor.Type));
+            lines.Add(InventoryIndent + messages.GetMessage("stats_armor_bonus") + Armor.ArmorBonus);
+        }
+        else
+        {
+            lines.Add(nothing);
         }
 
+        lines.Add(messages.GetMessage("stats_carrying"));
+        lines.Add(InventoryIndent + messages.GetMessage("stats_gold") + Gold);
         if (HealingPotions > 0)
-            lines.Add(messages.GetMessage("stats_healing_potions") + HealingPotions);
+            lines.Add(InventoryIndent + messages.GetMessage("stats_healing_potions") + HealingPotions);
 
         return lines;
     }
