@@ -42,7 +42,7 @@ The Inventory appears in the same form in the character stats and on the combat 
 20. As a player, I want Strength, Agility and Health Points to stay above the Inventory, so that stats and possessions stay clearly separate.
 21. As a Spanish, French or Italian player, I want the Inventory headings, the "wearing nothing" line and the updated path prompt in my language, so that the game stays fully localized.
 22. As a player in any language, I want to type `i` or `inventory` at the fork, so that commands stay language-neutral like `n`, `s` and `e`.
-23. As a player who enters invalid input at the fork, I want the existing invalid-path message, so that the new choice doesn't change error handling.
+23. As a player who enters invalid input at the fork, I want the invalid-path message to list every choice, including `i`, so that it matches what the path prompt offers.
 24. As a player who never uses the inventory choice, I want the fork, the Merchant and the dragon fight to work exactly as before, so that the feature is purely additive.
 25. As a player starting a new game, I want a fresh Inventory (starting weapon, no armor, 15 Gold, no Healing Potions), so that each game starts the same.
 26. As a maintainer, I want the character stats and combat stats to build the Inventory from one shared place, so that the two can't drift apart.
@@ -62,12 +62,13 @@ The Inventory appears in the same form in the character stats and on the combat 
 - **Character stats** stop printing Gold on their own. Gold appears only under Carrying. Name, Race, Occupation, Strength, Agility and Health Points stay above the Inventory, unchanged.
 - **Combat stats** keep the player's Name, Strength, Agility and current / maximum Health Points above the Inventory. They now include Gold because it is part of Carrying. The dragon's section is unchanged; the dragon has no Inventory.
 - **Weapon-less player** (only possible in tests; every occupation is assigned a weapon): the Wielding section shows the same "nothing" line as an empty Wearing section.
-- **Path fork**: `i` or `inventory` (case-insensitive, trimmed) shows the player's Inventory and re-prompts for a path. It does not count as a South visit, changes no state, and can be repeated. The path-choice validator accepts the new inputs. Input stays language-neutral (ADR 0001).
+- **Path fork**: `i` or `inventory` (case-insensitive, trimmed) shows the player's Inventory and re-prompts for a path. It does not count as a South visit, changes no state, and can be repeated. The path-choice validator accepts the new inputs. Invalid input still shows the invalid-path message, which now lists `i` alongside `n`, `s` and `e`. Input stays language-neutral (ADR 0001).
 - **Localization**: new message keys in all four languages, without accents (ADR 0001):
   - Inventory header
   - Wielding, Wearing and Carrying headings
   - "Nothing" line for an empty section
   - Updated path prompt offering `i` for inventory
+  - Updated invalid-path message listing `i` (an existing key, reworded)
   
   Existing labels for weapon, damage, armor, Armor Bonus, Gold and Healing Potions are reused as they are.
 - The glossary already defines the four Inventory terms. Code comments and new message keys use those terms and avoid the listed synonyms (equipment, gear, items, bag, backpack, holding, equipped).
@@ -80,7 +81,7 @@ The Inventory appears in the same form in the character stats and on the combat 
   - After the first South trip with purchases, `i` shows the updated Inventory: Magical Weapon damage or Magical Armor with its Armor Bonus, the remaining Gold, and the Healing Potion count.
   - `inventory` (full word, mixed case) works the same as `i`.
   - Viewing the Inventory re-prompts for a path and doesn't trigger the South visit or the empty stall.
-  - Invalid input at the fork still shows the invalid-path message.
+  - Invalid input at the fork shows the invalid-path message, listing `i` among the choices.
   - One full Italian playthrough that views the Inventory.
   
   Tests end with exit, so random character-creation rolls don't affect assertions.
