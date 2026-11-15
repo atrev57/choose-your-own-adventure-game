@@ -8,12 +8,12 @@ See `.scratch/inventory/spec.md` (Implementation Decisions "Path fork", Testing 
 
 **Status:** ready-for-agent
 
-- [ ] `i` at the fork before going South shows Wielding (the starting weapon), Wearing nothing, and Carrying 15 Gold with no Healing Potion line, then re-prompts for a path
-- [ ] After the first South trip with purchases, `i` shows the updated Inventory: the Magical Weapon's damage or Magical Armor with its Armor Bonus, the remaining Gold, and the Healing Potion count
-- [ ] `inventory` (full word, mixed case) works the same as `i`
-- [ ] Viewing the Inventory doesn't trigger the South visit, the found Healing Potion or the empty stall, and can be done repeatedly
-- [ ] The path-choice validator accepts `i` and `inventory`
-- [ ] Invalid input at the fork still shows the existing invalid-path message
-- [ ] The path prompt offers `i` for inventory in English, Spanish, French and Italian, without accents (ADR 0001); the key-parity test passes
-- [ ] A full Italian playthrough that views the Inventory passes
-- [ ] Players who never use the inventory choice see the fork, the Merchant and the dragon fight behave as before; the full test suite passes
+- [x] `i` at the fork before going South shows Wielding (the starting weapon), Wearing nothing, and Carrying 15 Gold with no Healing Potion line, then re-prompts for a path
+- [x] After the first South trip with purchases, `i` shows the updated Inventory: the Magical Weapon's damage or Magical Armor with its Armor Bonus, the remaining Gold, and the Healing Potion count
+- [x] `inventory` (full word, mixed case) works the same as `i`
+- [x] Viewing the Inventory doesn't trigger the South visit, the found Healing Potion or the empty stall, and can be done repeatedly
+- [x] The path-choice validator accepts `i` and `inventory`
+- [x] Invalid input at the fork still shows the existing invalid-path message
+- [x] The path prompt offers `i` for inventory in English, Spanish, French and Italian, without accents (ADR 0001); the key-parity test passes
+- [x] A full Italian playthrough that views the Inventory passes
+- [x] Players who never use the inventory choice see the fork, the Merchant and the dragon fight behave as before; the full test suite passes

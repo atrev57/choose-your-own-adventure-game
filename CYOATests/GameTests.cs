@@ -205,6 +205,17 @@ public class GameTests
         Assert.IsTrue(game.IsValidMenuChoice("  2  "));
     }
 
+    [TestMethod]
+    [DataRow("i")]
+    [DataRow("inventory")]
+    [DataRow("I")]
+    [DataRow("  InVeNtOrY  ")]
+    public void IsValidPathChoice_ReturnsTrue_ForInventory(string input)
+    {
+        Game game = new Game();
+        Assert.IsTrue(game.IsValidPathChoice(input));
+    }
+
     // --- IsValidPathChoice: case insensitivity ---
 
     [TestMethod]

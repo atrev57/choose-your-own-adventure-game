@@ -59,6 +59,12 @@ public class Game
                         running = false;
                         inAdventureMenu = false;
                     }
+                    else if (selectedPath == "inventory")
+                    {
+                        // Viewing changes nothing; the loop asks for a path again.
+                        foreach (string line in player.GetInventoryLines(messages))
+                            Console.WriteLine(line);
+                    }
                     else if (selectedPath == "south")
                     {
                         if (player.HasMetMerchant)
@@ -119,7 +125,8 @@ public class Game
         string trimmed = input.Trim().ToLower();
         return trimmed == "n" || trimmed == "north" ||
                trimmed == "s" || trimmed == "south" ||
-               trimmed == "e" || trimmed == "exit";
+               trimmed == "e" || trimmed == "exit" ||
+               trimmed == "i" || trimmed == "inventory";
     }
 
     public bool IsValidCombatChoice(string? input)
@@ -146,6 +153,9 @@ public class Game
 
             if (input == "exit" || input == "e")
                 return "exit";
+
+            if (input == "inventory" || input == "i")
+                return "inventory";
 
             Console.WriteLine(messages.GetMessage("path_invalid"));
         }

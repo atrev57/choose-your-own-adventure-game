@@ -220,6 +220,30 @@ public class ItalianLanguageTests
     [TestMethod]
     [DoNotParallelize]
     [Timeout(5000)]  // fail fast if the game gets stuck waiting for input
+    public void StartGame_Italian_ViewInventoryAtTheForkBeforeAndAfterTheMerchant()
+    {
+        // Italian -> Mezzuomo Ladro "Giulia" -> start adventure -> view (i) -> South -> buy armor (1)
+        // -> leave (4) -> view (inventory) -> exit.
+        string output = PlayGame("4\n1\nmezzuomo\nGiulia\nladro\nroll\nroll\nroll\n2\ni\ns\n1\n4\ninventory\ne\n");
+        string nl = Environment.NewLine;
+
+        StringAssert.Contains(output, "Digita 'i' per vedere l'inventario.");
+        StringAssert.Contains(output,
+            "----- Inventario -----" + nl +
+            "Impugna:" + nl +
+            "  Arma: pugnale" + nl);
+        StringAssert.Contains(output, "Indossa:" + nl + "  niente" + nl + "Trasporta:" + nl);
+        StringAssert.Contains(output, "Indossa:" + nl + "  Armatura: armatura magica" + nl + "  Bonus Armatura: 5" + nl);
+        Assert.AreEqual(2, Regex.Matches(output, "----- Inventario -----").Count);
+        Assert.AreEqual(1, Regex.Matches(output, "Incontri un Mercante").Count);
+        Assert.AreEqual(4, Regex.Matches(output, "Stai camminando tra le montagne.").Count, "Asked for a path after each view and the Merchant.");
+        StringAssert.Contains(output, "L'avventura finisce. Ciao.");
+        Assert.IsFalse(Regex.IsMatch(output, @"\[[a-z_0-9]+\]"), "Output contains a missing-key marker like [some_key].");
+    }
+
+    [TestMethod]
+    [DoNotParallelize]
+    [Timeout(5000)]  // fail fast if the game gets stuck waiting for input
     public void StartGame_Italian_SouthBuyTwoHealingPotionsThenSoldOut()
     {
         // Italian -> Mezzuomo Ladro "Giulia" -> start adventure -> South -> buy a Healing Potion (3) twice
