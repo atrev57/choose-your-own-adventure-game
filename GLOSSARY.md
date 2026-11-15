@@ -7,16 +7,38 @@ A text-based choose-your-own-adventure game: the player creates a character, pic
 ### Economy
 
 **Gold**:
-The player's currency. Every character starts with the same fixed amount — enough for exactly one Merchant item.
+The player's currency. Every character starts with the same fixed amount — enough for exactly one Magical Item.
 _Avoid_: Money, coins, currency
 
 **Merchant**:
-A trader met once per character on the South path, who sells magical items for Gold.
+A trader met once per character on the South path, who sells Magical Items and a limited stock of Healing Potions for Gold.
 _Avoid_: Shop, vendor, trader, store
+
+**Magical Item**:
+Magical Armor or a Magical Weapon. A player can afford only one.
+_Avoid_: Merchant item, upgrade
+
+**Healing Potion**:
+A single-use drink that restores half of the player's Maximum Health Points (rounded up), never beyond that maximum. Drinking one in combat takes the place of the player's attack that round. Every character finds one on their first South trip, and the Merchant sells two more.
+_Avoid_: Potion (alone), health item, consumable, medkit
+
+**Sold Out**:
+The Merchant has no Healing Potions left for this character.
+_Avoid_: Out of stock, empty
 
 **Magical Weapon**:
 The player's own weapon after the Merchant enchants it: same kind of weapon, higher maximum damage.
 _Avoid_: New weapon, upgraded weapon, enchanted weapon
+
+### Health
+
+**Health Points**:
+How much more damage the player can take; at 0 they are defeated.
+_Avoid_: HP (in prose), life, hit points
+
+**Maximum Health Points**:
+The Health Points rolled at character creation; healing never raises Health Points above it.
+_Avoid_: Max HP, full health, starting health
 
 ### Defense
 
@@ -33,7 +55,7 @@ A Defense Roll above Agility but within Agility plus the Armor Bonus; the attack
 _Avoid_: Glancing blow, damage reduction
 
 **Magical Armor**:
-A Merchant item that grants an Armor Bonus, creating the Partial Block range.
+A Magical Item that grants an Armor Bonus, creating the Partial Block range.
 _Avoid_: Shield, protection item
 
 **Armor Bonus**:

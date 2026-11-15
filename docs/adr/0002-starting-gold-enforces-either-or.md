@@ -17,3 +17,9 @@ The Merchant on the South path offers Magical Armor or a Magical Weapon, and the
 
 - **The 15/10 numbers are load-bearing.** Anyone who adds a way to earn Gold before the first South trip, lowers item prices, or raises starting Gold can silently let a player buy both items. If buying both should stay impossible, re-check this ADR first.
 - The Merchant appears only once per character, so Gold earned later cannot be spent at this Merchant as currently designed.
+
+## Amendment (2026-11-15): Healing Potions
+
+The Merchant also sells **Healing Potions** for **5 Gold**, with a stock of **2 per character**. This keeps the either/or: 10 + 10 > 15, so two Magical Items are still unaffordable. It also adds a second trade-off: one Magical Item plus one Healing Potion, or two Healing Potions with 5 Gold left over. The stock limit only matters because of this price. At 5 Gold, 15 Gold could otherwise buy three potions. Considered and rejected: **10 Gold**, which would make the potion a third either/or choice and leave the stock limit with nothing to do; **3 Gold**, which lets a player afford a Magical Item plus potions while the stock limit alone holds back hoarding.
+
+- **The 15/10/5 numbers and the stock of 2 are now all load-bearing.** Re-check this ADR before changing any of them.
