@@ -11,10 +11,6 @@ public interface ICombatant
     int MaximumDamage { get; }
 
     int HealthPoints { get; set; }
-
-    // Temporary: only the player's Health Points stop at 0 today. Issue 02
-    // (.scratch/attack-resolution/issues/02) makes the clamp apply to both and removes this.
-    bool HealthPointsStopAtZero { get; }
 }
 
 public enum Block { None, Full, Partial }
@@ -47,9 +43,7 @@ public static class Attack
             damage /= 2;
         }
 
-        defender.HealthPoints -= damage;
-        if (defender.HealthPointsStopAtZero && defender.HealthPoints < 0)
-            defender.HealthPoints = 0;
+        defender.HealthPoints = Math.Max(0, defender.HealthPoints - damage);
 
         return new AttackOutcome(true, block, damage, defender.HealthPoints <= 0);
     }

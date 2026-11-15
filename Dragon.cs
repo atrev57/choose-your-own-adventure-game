@@ -50,9 +50,6 @@ public class Dragon : ICombatant
 
     public int MaximumDamage => Weapon.MaxDamage;
 
-    // Issue 02 makes the dragon's Health Points stop at 0 too.
-    bool ICombatant.HealthPointsStopAtZero => false;
-
     public string Attack(Player player, Messages messages)
     {
         var output = new List<string>();

@@ -1,6 +1,7 @@
 // CYOATests/AttackTests.cs
 // Attack.Resolve driven directly with a ScriptedDie and small stand-in Combatants: no Messages,
-// no console. Roll order: hit roll (d20), then on a hit the Defense Roll (d20), then unless
+// no console. One test uses a real Dragon to pin that the dragon's Health Points stop at 0 (issue 02).
+// Roll order: hit roll (d20), then on a hit the Defense Roll (d20), then unless
 // Full Blocked the damage roll. A ScriptedDie throws when it runs out of rolls, so a test that
 // scripts only the rolls it expects proves no extra roll happened.
 
@@ -14,7 +15,6 @@ public class AttackTests
         public int ArmorBonus { get; init; }
         public int MaximumDamage { get; init; } = 12;
         public int HealthPoints { get; set; } = 20;
-        public bool HealthPointsStopAtZero { get; init; } = true;
     }
 
     [TestMethod]
@@ -80,10 +80,10 @@ public class AttackTests
     }
 
     [TestMethod]
-    public void DamageBeyondHealthPoints_StopsAtZero_WhenTheDefendersHealthPointsStopAtZero()
+    public void DamageBeyondHealthPoints_StopsAtZero()
     {
         var attacker = new StandInCombatant { Strength = 10, MaximumDamage = 12 };
-        var defender = new StandInCombatant { Agility = 5, HealthPoints = 3, HealthPointsStopAtZero = true };
+        var defender = new StandInCombatant { Agility = 5, HealthPoints = 3 };
 
         // Hit roll 1, Defense Roll 20 (no block), damage 7 against 3 Health Points.
         AttackOutcome outcome = Attack.Resolve(attacker, defender, new ScriptedDie(1, 20, 7));
@@ -105,16 +105,17 @@ public class AttackTests
         Assert.AreEqual(0, defender.HealthPoints);
     }
 
-    // Step one keeps the dragon's Health Points going below 0, as before; issue 02 changes this.
     [TestMethod]
-    public void DamageBeyondHealthPoints_GoesBelowZero_WhenTheDefendersHealthPointsDoNotStopAtZero()
+    public void DamageBeyondHealthPoints_StopsAtZero_WhenTheDragonIsTheDefender()
     {
         var attacker = new StandInCombatant { Strength = 10, MaximumDamage = 12 };
-        var defender = new StandInCombatant { Agility = 5, HealthPoints = 3, HealthPointsStopAtZero = false };
+        // The dragon rolls Strength 10, Agility 5 and Health Points 3 when it is built.
+        var dragon = new Dragon(new ScriptedDie(10, 5, 3));
 
-        AttackOutcome outcome = Attack.Resolve(attacker, defender, new ScriptedDie(1, 20, 7));
+        // Hit roll 1, Defense Roll 20 (no block), damage 7 against 3 Health Points.
+        AttackOutcome outcome = Attack.Resolve(attacker, dragon, new ScriptedDie(1, 20, 7));
 
         Assert.IsTrue(outcome.DefenderDefeated);
-        Assert.AreEqual(-4, defender.HealthPoints);
+        Assert.AreEqual(0, dragon.HealthPoints);
     }
 }

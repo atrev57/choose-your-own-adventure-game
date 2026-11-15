@@ -77,8 +77,6 @@ public class Player : ICombatant
     // From the weapon the player is Wielding.
     public int MaximumDamage => Weapon?.MaxDamage ?? 0;
 
-    bool ICombatant.HealthPointsStopAtZero => true;
-
     public void CreateCharacter(Messages messages)
     {
         Race = PromptForRace(messages);
