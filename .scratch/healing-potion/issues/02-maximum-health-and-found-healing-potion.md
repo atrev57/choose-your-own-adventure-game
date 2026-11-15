@@ -8,13 +8,15 @@
 
 Spec: `../spec.md`. Localization: ADR 0001.
 
-- [ ] Maximum Health Points is set at character creation and does not change when the player takes damage.
-- [ ] The combat stats screen shows health as current / maximum.
-- [ ] Through the game's start method: the first South trip prints the found-potion message before the Merchant intro, and stats then show "Healing Potions: 1".
-- [ ] The Healing Potions stats line is absent when the count is 0 (a character who never went South).
-- [ ] A second South trip shows the empty stall and does not add a Healing Potion; stats still show 1.
-- [ ] A new character starts with 0 Healing Potions.
-- [ ] The found-potion message, the stats line, current / maximum health, and the Healing Potion's display name (*pocion curativa*, *potion de soin*, *pozione curativa*) exist in all four languages without accents; key-parity passes, and one check confirms the display name exists in every language.
-- [ ] A full Italian playthrough through the game's start method: South → find the Healing Potion → leave the Merchant → stats show the count → exit.
+- [x] Maximum Health Points is set at character creation and does not change when the player takes damage.
+- [x] The combat stats screen shows health as current / maximum.
+- [x] Through the game's start method: the first South trip prints the found-potion message before the Merchant intro, and stats then show "Healing Potions: 1".
+- [x] The Healing Potions stats line is absent when the count is 0 (a character who never went South).
+- [x] A second South trip shows the empty stall and does not add a Healing Potion; stats still show 1.
+- [x] A new character starts with 0 Healing Potions.
+- [x] The found-potion message, the stats line, current / maximum health, and the Healing Potion's display name (*pocion curativa*, *potion de soin*, *pozione curativa*) exist in all four languages without accents; key-parity passes, and one check confirms the display name exists in every language.
+- [x] A full Italian playthrough through the game's start method: South → find the Healing Potion → leave the Merchant → stats show the count → exit.
 
 ## Comments
+
+- Playthroughs that check stats after the South trip end with North → attack → retreat, not exit: after the South trip, the combat stats screen is the only place stats are shown. Those stats print before any combat roll, so random rolls never affect the assertions.

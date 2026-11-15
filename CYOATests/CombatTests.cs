@@ -131,6 +131,35 @@ public class CombatTests
     }
 
     [TestMethod]
+    [DoNotParallelize]
+    public void GetCombatStatsDisplay_ShowsCurrentOverMaximumHealth_AfterDamage()
+    {
+        // Human: Strength d20=10 + d4=2, Agility d20=12, Health d20=15 + Strength modifier 2 = 17.
+        Player player = new Player(new ScriptedDie(10, 2, 12, 15));
+        Messages messages = CreateEnglishMessages();
+
+        TextReader originalIn = Console.In;
+        TextWriter originalOut = Console.Out;
+        try
+        {
+            Console.SetIn(new StringReader("human\nHero\nfighter\nroll\nroll\nroll\n2\n"));
+            Console.SetOut(new StringWriter());
+            player.CreateCharacter(messages);
+        }
+        finally
+        {
+            Console.SetIn(originalIn);
+            Console.SetOut(originalOut);
+        }
+
+        player.HealthPoints -= 2; // the dragon's damage
+
+        string result = new Combat(player, CreateTestDragon(), messages).GetCombatStatsDisplay();
+
+        StringAssert.Contains(result, "Health Points: 15 / 17");
+    }
+
+    [TestMethod]
     public void GetCombatStatsDisplay_UsesLocalizedStatLabels()
     {
         Player player = CreateTestPlayer();

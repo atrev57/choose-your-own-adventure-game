@@ -56,7 +56,8 @@ public class Combat
         output.Add(messages.GetMessage("stats_name") + player.Name);
         output.Add(messages.GetMessage("stats_strength") + player.Strength);
         output.Add(messages.GetMessage("stats_agility") + player.Agility);
-        output.Add(messages.GetMessage("stats_health") + player.HealthPoints);
+        output.Add(string.Format(messages.GetMessage("stats_health_current_maximum"),
+            player.HealthPoints, player.MaximumHealthPoints));
 
         output.AddRange(player.GetEquipmentStatLines(messages));
 

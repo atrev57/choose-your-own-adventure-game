@@ -68,6 +68,10 @@ public class Game
                         else
                         {
                             Console.WriteLine(messages.GetMessage("south_path_narrative"));
+
+                            // Found only on the first South trip, which is also the Merchant visit.
+                            player.FindHealingPotion(messages);
+
                             new Merchant().Visit(player, messages);
                         }
                     }

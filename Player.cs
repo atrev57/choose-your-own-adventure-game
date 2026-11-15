@@ -20,12 +20,24 @@ public class Player
     public int Agility { get; set; }
     public int HealthPoints { get; set; }
 
+    // The Health Points rolled at character creation; damage never changes it.
+    public int MaximumHealthPoints { get; set; }
+
     // Every character starts with the same Gold: enough for exactly one Merchant item (ADR 0002).
     public const int StartingGold = 15;
     public int Gold { get; set; } = StartingGold;
 
     // Lives on the player so every new character meets a fresh Merchant.
     public bool HasMetMerchant { get; set; }
+
+    public int HealingPotions { get; set; }
+
+    public void FindHealingPotion(Messages messages)
+    {
+        HealingPotions++;
+        Console.WriteLine(string.Format(messages.GetMessage("healing_potion_found"),
+            messages.GetMessage("healing_potion_name")));
+    }
 
     public Weapon? Weapon { get; set; }
     public Armor? Armor { get; set; }
@@ -136,6 +148,7 @@ public class Player
     {
         PromptRoll(messages.GetMessage("roll_health"), messages);
         HealthPoints = _die.Roll(20) + strengthModifier;
+        MaximumHealthPoints = HealthPoints;
     }
 
     private void PromptForNextAction(Messages messages)
@@ -170,7 +183,7 @@ public class Player
     }
 
     /// <summary>
-    /// The weapon and armor lines shared by the character stats and the combat stats screen.
+    /// The weapon, armor and Healing Potion lines shared by the character stats and the combat stats screen.
     /// </summary>
     public List<string> GetEquipmentStatLines(Messages messages)
     {
@@ -187,6 +200,9 @@ public class Player
             lines.Add(messages.GetMessage("stats_armor") + messages.TranslateArmorForDisplay(Armor.Type));
             lines.Add(messages.GetMessage("stats_armor_bonus") + Armor.ArmorBonus);
         }
+
+        if (HealingPotions > 0)
+            lines.Add(messages.GetMessage("stats_healing_potions") + HealingPotions);
 
         return lines;
     }
