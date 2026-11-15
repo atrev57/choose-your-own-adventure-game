@@ -204,8 +204,8 @@ public class ItalianLanguageTests
     [Timeout(5000)]  // fail fast if the game gets stuck waiting for input
     public void StartGame_Italian_SouthBuyArmorThenBackToFork()
     {
-        // Italian -> Mezzuomo Ladro "Giulia" -> start adventure -> South -> buy armor (1) -> leave (3) -> exit.
-        string output = PlayGame("4\n1\nmezzuomo\nGiulia\nladro\nroll\nroll\nroll\n2\ns\n1\n3\ne\n");
+        // Italian -> Mezzuomo Ladro "Giulia" -> start adventure -> South -> buy armor (1) -> leave (4) -> exit.
+        string output = PlayGame("4\n1\nmezzuomo\nGiulia\nladro\nroll\nroll\nroll\n2\ns\n1\n4\ne\n");
 
         StringAssert.Contains(output, "Incontri un Mercante");
         StringAssert.Contains(output, "Hai 15 monete d'oro.");
@@ -213,6 +213,26 @@ public class ItalianLanguageTests
         StringAssert.Contains(output, "Hai comprato: armatura magica! Il suo Bonus Armatura e' 5. Ti restano 5 monete d'oro.");
         StringAssert.Contains(output, "Lasci il Mercante con 5 monete d'oro");
         Assert.AreEqual(2, Regex.Matches(output, "Stai camminando tra le montagne.").Count, "Player should be back at the path fork.");
+        StringAssert.Contains(output, "L'avventura finisce. Ciao.");
+        Assert.IsFalse(Regex.IsMatch(output, @"\[[a-z_0-9]+\]"), "Output contains a missing-key marker like [some_key].");
+    }
+
+    [TestMethod]
+    [DoNotParallelize]
+    [Timeout(5000)]  // fail fast if the game gets stuck waiting for input
+    public void StartGame_Italian_SouthBuyTwoHealingPotionsThenSoldOut()
+    {
+        // Italian -> Mezzuomo Ladro "Giulia" -> start adventure -> South -> buy a Healing Potion (3) twice
+        // -> third try is Sold Out -> leave (4) -> exit.
+        string output = PlayGame("4\n1\nmezzuomo\nGiulia\nladro\nroll\nroll\nroll\n2\ns\n3\n3\n3\n4\ne\n");
+
+        StringAssert.Contains(output, "3. Pozione Curativa (5 monete d'oro)");
+        StringAssert.Contains(output, "4. Esci");
+        StringAssert.Contains(output, "Hai comprato una pozione curativa! Ora hai 2 pozioni curative. Ti restano 10 monete d'oro.");
+        StringAssert.Contains(output, "Hai comprato una pozione curativa! Ora hai 3 pozioni curative. Ti restano 5 monete d'oro.");
+        StringAssert.Contains(output, "3. Pozione Curativa (Esaurita)");
+        StringAssert.Contains(output, "Il Mercante non ha piu' pozioni curative. Sono esaurite.");
+        StringAssert.Contains(output, "Lasci il Mercante con 5 monete d'oro");
         StringAssert.Contains(output, "L'avventura finisce. Ciao.");
         Assert.IsFalse(Regex.IsMatch(output, @"\[[a-z_0-9]+\]"), "Output contains a missing-key marker like [some_key].");
     }

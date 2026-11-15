@@ -42,7 +42,7 @@ public class HealingPotionTests
     [Timeout(5000)]
     public void FirstSouthTrip_FindsHealingPotionBeforeMerchant_AndStatsShowOne()
     {
-        string output = PlayGame(CreateThief + "s\n3\n" + FightThenRetreat);
+        string output = PlayGame(CreateThief + "s\n4\n" + FightThenRetreat);
 
         int narrative = output.IndexOf("You take the South path.");
         int found = output.IndexOf(FoundHealingPotion);
@@ -57,12 +57,24 @@ public class HealingPotionTests
     [Timeout(5000)]
     public void SecondSouthTrip_ShowsEmptyStall_AndFindsNoHealingPotion()
     {
-        string output = PlayGame(CreateThief + "s\n3\ns\n" + FightThenRetreat);
+        string output = PlayGame(CreateThief + "s\n4\ns\n" + FightThenRetreat);
 
         StringAssert.Contains(output, "The Merchant's stall is empty.");
         Assert.AreEqual(1, CountOf(output, FoundHealingPotion), "The Healing Potion is found only once per character.");
         StringAssert.Contains(output, "Healing Potions: 1");
         Assert.IsFalse(output.Contains("Healing Potions: 2"));
+    }
+
+    [TestMethod]
+    [Timeout(5000)]
+    public void BoughtHealingPotions_CountInCombatWithTheFoundOne()
+    {
+        // Buy both Healing Potions, leave, then fight; the combat stats print before any roll.
+        string output = PlayGame(CreateThief + "s\n3\n3\n4\n" + FightThenRetreat);
+
+        int combatStats = output.IndexOf("===== Combat Stats =====");
+        Assert.IsTrue(combatStats >= 0, "Combat stats are shown.");
+        StringAssert.Contains(output.Substring(combatStats), "Healing Potions: 3");
     }
 
     [TestMethod]
@@ -95,9 +107,9 @@ public class HealingPotionTests
     [Timeout(5000)]
     public void Italian_SouthFindsHealingPotion_LeaveMerchant_StatsShowCount()
     {
-        // Italian -> Mezzuomo Ladro "Giulia" -> start adventure -> South -> leave (3)
+        // Italian -> Mezzuomo Ladro "Giulia" -> start adventure -> South -> leave (4)
         // -> North -> attack -> retreat at the first combat prompt.
-        string output = PlayGame("4\n1\nmezzuomo\nGiulia\nladro\nroll\nroll\nroll\n2\ns\n3\nn\na\nr\n");
+        string output = PlayGame("4\n1\nmezzuomo\nGiulia\nladro\nroll\nroll\nroll\n2\ns\n4\nn\na\nr\n");
 
         int found = output.IndexOf("Lungo la strada trovi una pozione curativa");
         Assert.IsTrue(found >= 0, "The Italian found Healing Potion message is shown.");
