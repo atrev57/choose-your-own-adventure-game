@@ -114,11 +114,11 @@ public class InventoryAtForkTests
 
     [TestMethod]
     [Timeout(5000)]
-    public void InvalidInputAtTheFork_StillShowsTheInvalidPathMessage()
+    public void InvalidInputAtTheFork_ShowsTheInvalidPathMessage_ListingEveryChoiceIncludingI()
     {
         string output = PlayGame(CreateThief + "west\ne\n");
 
-        StringAssert.Contains(output, "Invalid choice. Please enter 'n', 's', or 'e'.");
+        StringAssert.Contains(output, "Invalid choice. Please enter 'n', 's', 'e', or 'i'.");
         Assert.AreEqual(0, CountOf(output, "----- Inventory -----"));
     }
 

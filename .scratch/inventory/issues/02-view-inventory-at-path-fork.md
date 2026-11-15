@@ -13,7 +13,7 @@ See `.scratch/inventory/spec.md` (Implementation Decisions "Path fork", Testing 
 - [x] `inventory` (full word, mixed case) works the same as `i`
 - [x] Viewing the Inventory doesn't trigger the South visit, the found Healing Potion or the empty stall, and can be done repeatedly
 - [x] The path-choice validator accepts `i` and `inventory`
-- [x] Invalid input at the fork still shows the existing invalid-path message
+- [x] Invalid input at the fork still shows the invalid-path message, which now lists 'i' alongside 'n', 's' and 'e' in every language (decided after review)
 - [x] The path prompt offers `i` for inventory in English, Spanish, French and Italian, without accents (ADR 0001); the key-parity test passes
 - [x] A full Italian playthrough that views the Inventory passes
 - [x] Players who never use the inventory choice see the fork, the Merchant and the dragon fight behave as before; the full test suite passes
