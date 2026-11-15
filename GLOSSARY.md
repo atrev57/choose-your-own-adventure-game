@@ -40,14 +40,24 @@ _Avoid_: HP (in prose), life, hit points
 The Health Points rolled at character creation; healing never raises Health Points above it.
 _Avoid_: Max HP, full health, starting health
 
+### Combat
+
+**Attack**:
+One attempt by the player or the dragon to damage the other: a d20 at or below the attacker's Strength hits, the defender's Defense Roll may block it, and whatever damage gets through lowers the defender's Health Points, never below 0.
+_Avoid_: Strike, swing, turn, round
+
+**Combatant**:
+The player or the dragon, as either side of an Attack: the attacker or the defender.
+_Avoid_: Fighter (an Occupation), unit, entity
+
 ### Defense
 
 **Defense Roll**:
-The d20 the player rolls when the dragon's attack hits, to see how much of it they block.
+The d20 rolled for the defender when an Attack hits, to see how much of it they block. Both the player and the dragon make one.
 _Avoid_: Dodge roll, save
 
 **Full Block**:
-A Defense Roll at or below the player's Agility; the attack does no damage.
+A Defense Roll at or below the defender's Agility; the Attack does no damage.
 _Avoid_: Dodge, evade
 
 **Partial Block**:

@@ -3,7 +3,7 @@ public enum HealingPotionDrinkOutcome { Drank, NoHealingPotions, AtMaximumHealth
 /// <summary>The result of trying to drink a Healing Potion, with the Health Points actually restored.</summary>
 public readonly record struct HealingPotionDrink(HealingPotionDrinkOutcome Outcome, int Restored);
 
-public class Player
+public class Player : ICombatant
 {
     private readonly Die _die;
 
@@ -70,6 +70,14 @@ public class Player
 
     public Weapon? Weapon { get; set; }
     public Armor? Armor { get; set; }
+
+    // From the Magical Armor the player is Wearing; 0 without it.
+    public int ArmorBonus => Armor?.ArmorBonus ?? 0;
+
+    // From the weapon the player is Wielding.
+    public int MaximumDamage => Weapon?.MaxDamage ?? 0;
+
+    bool ICombatant.HealthPointsStopAtZero => true;
 
     public void CreateCharacter(Messages messages)
     {
@@ -249,26 +257,9 @@ public class Player
         return lines;
     }
 
-    public int RollAttack()
-    {
-        return _die.Roll(20);
-    }
-
-    public bool AttackHits(int attackRoll)
-    {
-        return attackRoll <= Strength;
-    }
-
-    public int RollDamage()
-    {
-        if (Weapon == null)
-            return 0;
-
-        return _die.Roll(Weapon.MaxDamage);
-    }
-
     public string Attack(Dragon dragon, Messages messages)
     {
+        // Turned away before any Die is rolled, so Attack.Resolve can assume a weapon.
         if (Weapon == null)
             return "You have no weapon to attack with.";
 
@@ -283,10 +274,9 @@ public class Player
         // If this fails to compile, change AsciiArt to whatever exists in Weapon.cs
         output.Add(Weapon.AsciiArt);
 
-        int attackRoll = RollAttack();
+        AttackOutcome outcome = global::Attack.Resolve(this, dragon, _die);
 
-        // MISS
-        if (!AttackHits(attackRoll))
+        if (!outcome.Hit)
         {
             output.Add(string.Format(messages.GetMessage("player_missed_dragon"), dragon.Name));
             return string.Join(Environment.NewLine, output);
@@ -294,10 +284,7 @@ public class Player
 
         output.Add(string.Format(messages.GetMessage("player_hit_dragon"), dragon.Name));
 
-        int defenseRoll = _die.Roll(20);
-
-        // DEFENSE
-        if (defenseRoll <= dragon.Agility)
+        if (outcome.Block == Block.Full)
         {
             output.Add(string.Format(messages.GetMessage("dragon_defended_player_attack"), dragon.Name));
             output.Add(string.Format(
@@ -307,15 +294,11 @@ public class Player
             return string.Join(Environment.NewLine, output);
         }
 
-        // DAMAGE
-        int damage = RollDamage();
-        dragon.HealthPoints -= damage;
-
-        output.Add(string.Format(messages.GetMessage("player_damage_dealt"), damage));
+        // The dragon's Armor Bonus is 0, so it never makes a Partial Block.
+        output.Add(string.Format(messages.GetMessage("player_damage_dealt"), outcome.Damage));
         output.Add(string.Format(messages.GetMessage("dragon_health_now"), dragon.Name, dragon.HealthPoints));
 
-        // END
-        if (dragon.HealthPoints <= 0)
+        if (outcome.DefenderDefeated)
             output.Add(messages.GetMessage("dragon_defeated_narrative"));
         else
             output.Add(dragon.GetRandomDamageReply(messages));

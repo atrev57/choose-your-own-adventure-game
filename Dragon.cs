@@ -1,4 +1,4 @@
-public class Dragon
+public class Dragon : ICombatant
 {
     private readonly Die _die;
 
@@ -45,20 +45,13 @@ public class Dragon
         Weapon = new Weapon("claws", 12, "<<< claws >>>");
     }
 
-    public int RollAttack()
-    {
-        return _die.Roll(20);
-    }
+    // The dragon wears no armor, so its Partial Block range is empty.
+    public int ArmorBonus => 0;
 
-    public bool AttackHits(int attackRoll)
-    {
-        return attackRoll <= Strength;
-    }
+    public int MaximumDamage => Weapon.MaxDamage;
 
-    public int RollDamage()
-    {
-        return _die.Roll(Weapon.MaxDamage);
-    }
+    // Issue 02 makes the dragon's Health Points stop at 0 too.
+    bool ICombatant.HealthPointsStopAtZero => false;
 
     public string Attack(Player player, Messages messages)
     {
@@ -74,9 +67,9 @@ public class Dragon
         if (!string.IsNullOrWhiteSpace(Weapon.AsciiArt))
             output.Add(Weapon.AsciiArt);
 
-        int attackRoll = RollAttack();
+        AttackOutcome outcome = global::Attack.Resolve(this, player, _die);
 
-        if (!AttackHits(attackRoll))
+        if (!outcome.Hit)
         {
             output.Add(string.Format(messages.GetMessage("dragon_missed_player"), Name, player.Name));
             return string.Join(Environment.NewLine, output);
@@ -84,34 +77,19 @@ public class Dragon
 
         output.Add(string.Format(messages.GetMessage("dragon_hit_player"), Name, player.Name));
 
-        // Defense Roll: Full Block at or below Agility; Partial Block (half damage,
-        // rounded down) up to Agility + Armor Bonus; full damage above that.
-        int defenseRoll = _die.Roll(20);
-        int armorBonus = player.Armor?.ArmorBonus ?? 0;
-
-        if (defenseRoll <= player.Agility)
+        if (outcome.Block == Block.Full)
         {
             output.Add(string.Format(messages.GetMessage("player_defended_dragon_attack"), player.Name));
             return string.Join(Environment.NewLine, output);
         }
 
-        int damage = RollDamage();
-
-        if (defenseRoll <= player.Agility + armorBonus)
-        {
-            damage /= 2;
+        if (outcome.Block == Block.Partial)
             output.Add(string.Format(messages.GetMessage("player_partial_block"), player.Name));
-        }
 
-        player.HealthPoints -= damage;
-
-        if (player.HealthPoints < 0)
-            player.HealthPoints = 0;
-
-        output.Add(string.Format(messages.GetMessage("dragon_damage_dealt"), Name, damage));
+        output.Add(string.Format(messages.GetMessage("dragon_damage_dealt"), Name, outcome.Damage));
         output.Add(string.Format(messages.GetMessage("player_health_now"), player.Name, player.HealthPoints));
 
-        if (player.HealthPoints <= 0)
+        if (outcome.DefenderDefeated)
             output.Add(string.Format(messages.GetMessage("player_defeated_narrative"), player.Name));
 
         return string.Join(Environment.NewLine, output);
